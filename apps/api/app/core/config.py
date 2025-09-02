@@ -47,7 +47,7 @@ class Settings(BaseModel):
     preview_port_start: int = int(os.getenv("PREVIEW_PORT_START", "3100"))
     preview_port_end: int = int(os.getenv("PREVIEW_PORT_END", "3999"))
 
-    # Preview host configuration - use server IP for remote access
-    preview_host: str = os.getenv("PREVIEW_HOST", "localhost")
+    # Preview base URL configuration - supports HTTP/HTTPS and different hosts
+    preview_base_url: str = os.getenv("PREVIEW_BASE_URL", "http://localhost")
 
 settings = Settings()

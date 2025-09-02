@@ -67,7 +67,7 @@ async def start_preview(
     result = {
         "success": True,
         "port": port,
-        "url": f"http://{settings.preview_host}:{port}",
+        "url": f"{settings.preview_base_url}:{port}",
         "process_name": process_name
     }
     
@@ -186,7 +186,7 @@ async def restart_preview(
     result = {
         "success": True,
         "port": port,
-        "url": f"http://{settings.preview_host}:{port}",
+        "url": f"{settings.preview_base_url}:{port}",
         "process_name": process_name
     }
     

@@ -83,6 +83,7 @@ async function setupEnvironment() {
 API_PORT=${apiPort}
 WEB_PORT=${webPort}
 DATABASE_URL=sqlite:///${path.join(rootDir, 'data', 'cc.db')}
+PREVIEW_BASE_URL=http://localhost
 `;
     
     fs.writeFileSync(envFile, envContent);
