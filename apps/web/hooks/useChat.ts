@@ -7,6 +7,8 @@ import { Message, ChatSession, ActRequest, ImageAttachment } from '@/types/chat'
 import { useWebSocket } from './useWebSocket';
 import { useUserRequests } from './useUserRequests';
 
+const API_BASE = process.env.NEXT_PUBLIC_API_BASE || 'http://localhost:8080';
+
 interface UseChatOptions {
   projectId: string;
   conversationId?: string;
@@ -102,7 +104,7 @@ export function useChat({ projectId, conversationId }: UseChatOptions) {
       if (conversationId) params.append('conversation_id', conversationId);
       
       const response = await fetch(
-        `/api/chat/${projectId}/messages?${params.toString()}`
+        `${API_BASE}/api/chat/${projectId}/messages?${params.toString()}`
       );
       
       if (!response.ok) throw new Error('Failed to load messages');
@@ -121,7 +123,7 @@ export function useChat({ projectId, conversationId }: UseChatOptions) {
       setIsLoading(true);
       setError(null);
       
-      const response = await fetch(`/api/chat/${projectId}/messages`, {
+      const response = await fetch(`${API_BASE}/api/chat/${projectId}/messages`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -213,7 +215,7 @@ export function useChat({ projectId, conversationId }: UseChatOptions) {
         request_id: requestId
       };
       
-      const response = await fetch(`/api/chat/${projectId}/act`, {
+      const response = await fetch(`${API_BASE}/api/chat/${projectId}/act`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(request)

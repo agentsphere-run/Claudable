@@ -44,12 +44,26 @@ class LogFilterMiddleware(BaseHTTPMiddleware):
 
 app.add_middleware(LogFilterMiddleware)
 
-# Basic CORS for local development - support multiple ports
+# CORS configuration for local and AgentSphere deployment
+allowed_origins = [
+    "http://localhost:3000",
+    "http://localhost:3001", 
+    "http://127.0.0.1:3000",
+    "https://8080-idq04q8vjshcfovvk9ebk-6532622b.agentsphere.run",  # Backend API
+    "https://3000-idq04q8vjshcfovvk9ebk-6532622b.agentsphere.run",  # Frontend
+    "https://*.agentsphere.run",  # Allow all AgentSphere subdomains
+]
+
+# Add environment-specific origins
+import os
+if os.getenv("ALLOWED_ORIGINS"):
+    allowed_origins.extend(os.getenv("ALLOWED_ORIGINS").split(","))
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # Allow all origins in development
+    allow_origins=allowed_origins,
     allow_credentials=True,
-    allow_methods=["*"],
+    allow_methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allow_headers=["*"]
 )
 

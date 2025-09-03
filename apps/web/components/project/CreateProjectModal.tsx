@@ -79,7 +79,7 @@ export function CreateProjectModal({
     
     try {
       // Create project
-      const response = await fetch('/api/projects', {
+      const response = await fetch(`${API_BASE}/api/projects`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -100,7 +100,7 @@ export function CreateProjectModal({
       const project = await response.json();
       
       // Update CLI preference
-      await fetch(`/api/chat/${project.id}/cli-preference`, {
+      await fetch(`${API_BASE}/api/chat/${project.id}/cli-preference`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
