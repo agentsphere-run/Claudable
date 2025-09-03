@@ -5,6 +5,8 @@
 import { useState, useCallback, useEffect } from 'react';
 import { Project, ProjectSettings } from '@/types/project';
 
+const API_BASE = process.env.NEXT_PUBLIC_API_BASE || 'https://localhost:8080';
+
 interface UseProjectOptions {
   projectId: string;
 }
@@ -21,7 +23,7 @@ export function useProject({ projectId }: UseProjectOptions) {
       setIsLoading(true);
       setError(null);
       
-      const response = await fetch(`/api/projects/${projectId}`);
+      const response = await fetch(`${API_BASE}/api/projects/${projectId}`);
       if (!response.ok) throw new Error('Failed to load project');
       
       const data = await response.json();
@@ -37,7 +39,7 @@ export function useProject({ projectId }: UseProjectOptions) {
   // Load project settings
   const loadSettings = useCallback(async () => {
     try {
-      const response = await fetch(`/api/chat/${projectId}/cli-preference`);
+      const response = await fetch(`${API_BASE}/api/chat/${projectId}/cli-preference`);
       if (!response.ok) throw new Error('Failed to load settings');
       
       const data = await response.json();
@@ -54,7 +56,7 @@ export function useProject({ projectId }: UseProjectOptions) {
     fallbackEnabled: boolean
   ) => {
     try {
-      const response = await fetch(`/api/chat/${projectId}/cli-preference`, {
+      const response = await fetch(`${API_BASE}/api/chat/${projectId}/cli-preference`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -82,7 +84,7 @@ export function useProject({ projectId }: UseProjectOptions) {
   // Start preview
   const startPreview = useCallback(async (port?: number) => {
     try {
-      const response = await fetch(`/api/projects/${projectId}/preview/start`, {
+      const response = await fetch(`${API_BASE}/api/projects/${projectId}/preview/start`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ port })
@@ -107,7 +109,7 @@ export function useProject({ projectId }: UseProjectOptions) {
   // Stop preview
   const stopPreview = useCallback(async () => {
     try {
-      const response = await fetch(`/api/projects/${projectId}/preview/stop`, {
+      const response = await fetch(`${API_BASE}/api/projects/${projectId}/preview/stop`, {
         method: 'POST'
       });
       
@@ -127,7 +129,7 @@ export function useProject({ projectId }: UseProjectOptions) {
   // Get preview status
   const getPreviewStatus = useCallback(async () => {
     try {
-      const response = await fetch(`/api/projects/${projectId}/preview/status`);
+      const response = await fetch(`${API_BASE}/api/projects/${projectId}/preview/status`);
       if (!response.ok) throw new Error('Failed to get preview status');
       
       return await response.json();
