@@ -1,5 +1,6 @@
 from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
+from uvicorn.middleware.proxy_headers import ProxyHeadersMiddleware
 from starlette.middleware.base import BaseHTTPMiddleware
 from app.api.projects import router as projects_router
 from app.api.repo import router as repo_router
@@ -43,6 +44,9 @@ class LogFilterMiddleware(BaseHTTPMiddleware):
         return response
 
 app.add_middleware(LogFilterMiddleware)
+
+# Respect X-Forwarded-* headers from sandbox proxy so generated redirects use https
+app.add_middleware(ProxyHeadersMiddleware, trusted_hosts="*")
 
 # Basic CORS for local development - support multiple ports
 app.add_middleware(

@@ -294,7 +294,7 @@ export default function HomePage() {
 
   async function load() {
     try {
-      const r = await fetchAPI(`${API_BASE}/api/projects`);
+      const r = await fetchAPI(`${API_BASE}/api/projects/`);
       if (r.ok) {
         const projectsData = await r.json();
         // Sort by most recent activity (last_message_at or created_at)
@@ -496,7 +496,7 @@ export default function HomePage() {
     
     try {
       // Create a new project first
-      const response = await fetchAPI(`${API_BASE}/api/projects`, {
+      const response = await fetchAPI(`${API_BASE}/api/projects/`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ 
