@@ -8,6 +8,7 @@ from typing import Optional
 from sqlalchemy.orm import Session
 
 from app.api.deps import get_db
+from app.core.config import settings
 from app.models.projects import Project as ProjectModel
 from app.services.local_runtime import (
     start_preview_process,
@@ -66,7 +67,7 @@ async def start_preview(
     result = {
         "success": True,
         "port": port,
-        "url": f"http://localhost:{port}",
+        "url": f"{settings.preview_base_url}:{port}",
         "process_name": process_name
     }
     
@@ -185,7 +186,7 @@ async def restart_preview(
     result = {
         "success": True,
         "port": port,
-        "url": f"http://localhost:{port}",
+        "url": f"{settings.preview_base_url}:{port}",
         "process_name": process_name
     }
     

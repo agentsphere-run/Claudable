@@ -966,7 +966,7 @@ export default function HomePage() {
                     lineHeight: '72px'
                   }}
                 >
-                  Claudable
+                  Excelle AI
                 </h1>
               </div>
               <p className="text-xl text-gray-700 dark:text-white/80 font-light tracking-tight">
