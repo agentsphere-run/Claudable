@@ -49,5 +49,10 @@ class Settings(BaseModel):
 
     # Preview base URL configuration - supports HTTP/HTTPS and different hosts
     preview_base_url: str = os.getenv("PREVIEW_BASE_URL", "http://localhost")
+    
+    # Preview domain suffix for cloud deployment (e.g., "imayruuvz7cs9hxfm64o1-6532622b.agentsphere.run")
+    # When set, the preview URL will be: https://{port}-{preview_domain_suffix}
+    # When empty, falls back to: {preview_base_url}:{port}
+    preview_domain_suffix: str = os.getenv("PREVIEW_DOMAIN_SUFFIX", "")
 
 settings = Settings()

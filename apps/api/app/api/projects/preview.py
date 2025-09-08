@@ -22,6 +22,27 @@ from app.services.local_runtime import (
 router = APIRouter()
 
 
+def generate_preview_url(port: int) -> str:
+    """
+    生成预览URL
+    根据环境配置生成不同格式的URL：
+    - 云环境: https://{port}-{preview_domain_suffix}
+    - 本地环境: {preview_base_url}:{port}
+    
+    Args:
+        port: 预览服务端口号
+        
+    Returns:
+        完整的预览URL
+    """
+    if settings.preview_domain_suffix:
+        # 云环境部署格式: https://{port}-{domain_suffix}
+        return f"https://{port}-{settings.preview_domain_suffix}"
+    else:
+        # 传统格式: {base_url}:{port}
+        return f"{settings.preview_base_url}:{port}"
+
+
 class PreviewStartRequest(BaseModel):
     port: Optional[int] = None
 
@@ -67,7 +88,7 @@ async def start_preview(
     result = {
         "success": True,
         "port": port,
-        "url": f"{settings.preview_base_url}:{port}",
+        "url": generate_preview_url(port),
         "process_name": process_name
     }
     
@@ -186,7 +207,7 @@ async def restart_preview(
     result = {
         "success": True,
         "port": port,
-        "url": f"{settings.preview_base_url}:{port}",
+        "url": generate_preview_url(port),
         "process_name": process_name
     }
     
